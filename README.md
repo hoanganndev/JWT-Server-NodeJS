@@ -39,6 +39,8 @@
 
 > Chạy dòng lệnh để tạo table trong mysql dựa trên table đã tạo sẵn trong thư mục migrations
 > Vậy models sinh ra với mục đích định nghĩa table ví dụ : User , và file được ánh xạ trong migrations với file create-user quy định chi tiết những thông tin tạo trong database
+> Nói cách khác , file `Models` là để chúng ta thao tác với code
+> Còn file `Migrations` là để chúng ta tạo database
 
 > `npx sequelize-cli seed:generate --name demo-user`
 > Mục đích chạy câu lệnh này để gennerate ra form mẫu trong thư mục seeders
@@ -99,5 +101,9 @@ const getOneUser=()=>{
 ### [simple-update-queries](https://sequelize.org/docs/v6/core-concepts/model-querying-basics/#simple-update-queries)
 
 > để cập nhập dùng hàm `update`
+
+### [data-types](https://sequelize.org/docs/v6/core-concepts/model-basics/#data-types)
+
+> Một số kiểu dữ liệu thường gặp
 
 [How to write readme file ?](https://ihoctot.com/cach-viet-readme-md)

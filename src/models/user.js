@@ -8,10 +8,11 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // // define association here
-            // User.belongsTo(models.Group);
-            // // nhan vien => Project : n.n
-            // User.belongsToMany(models.Project, { through: "Project_User" });
+            // User => Group : 1.1
+            // A.belongsTo(B) => foreign key being defind in the target model A
+            User.belongsTo(models.Group);
+            // nhan vien => Project : n.n
+            User.belongsToMany(models.Project, { through: "Project_User" });
         }
     }
     User.init(

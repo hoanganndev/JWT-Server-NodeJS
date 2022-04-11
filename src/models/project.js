@@ -3,8 +3,8 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Project extends Model {
         static associate(models) {
-            // // Project => nhan vien : n.n
-            // Project.belongsToMany(models.User, { through: "Project_User" });
+            // Project => nhan vien : n.n
+            Project.belongsToMany(models.User, { through: "Project_User" });
         }
     }
     Project.init(

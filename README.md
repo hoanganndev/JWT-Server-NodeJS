@@ -79,7 +79,7 @@
 > `findOne` : Chỉ trả ra một object, nhưng object này là của sequelize hay còn gọi là sequelize modal , muốn convert sang object mà javascript hiểu được thì cần truyền thêm 1 thuộc tính data.get({plain:true})
 
 ```JavaScript
-const getOneUser=()=>{
+const getOneUser= async ()=>{
     let user = await db.User.findOne({...})
     user= user.get({plain:true})
     return user
@@ -89,7 +89,10 @@ const getOneUser=()=>{
 > => khi sử dụng cách này user vẫn là sequelize object nhưng khi lấy ra sử dụng chúng ta lại gán lại thành 1 object của javascript
 
 ```JavaScript
-{raw: true}
+let getUser= await db.User.findOne({
+    where:{id:1},
+    raw:true
+})
 ```
 
 > => nếu sử dụng raw : true trong khi truy vấn thì kết quả trả ra là 1 object của javascript , sau này nếu muốn thao tác với object đó để lưu hay làm gì khác với sequelize thì không được , tại vì sequezile chỉ nhận mỗi sequelize object mà nó trả ra
@@ -105,5 +108,15 @@ const getOneUser=()=>{
 ### [data-types](https://sequelize.org/docs/v6/core-concepts/model-basics/#data-types)
 
 > Một số kiểu dữ liệu thường gặp
+
+---
+
+### [association](https://sequelize.org/docs/v6/core-concepts/assocs/)
+
+### [advanced-association](https://sequelize.org/docs/v6/category/advanced-association-concepts/)
+
+---
+
+###[eager-loading](https://sequelize.org/docs/v6/advanced-association-concepts/eager-loading/)
 
 [How to write readme file ?](https://ihoctot.com/cach-viet-readme-md)

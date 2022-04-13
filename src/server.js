@@ -4,10 +4,11 @@ import express from "express";
 import configViewEngine from "./config/viewEngine";
 import initApiRoutes from "./routers/api";
 import connection from "./config/connectDB";
+import configCors from "./config/cors";
 require("dotenv").config();
 const app = express();
-// //config cors
-// configCors(app);
+//config cors
+configCors(app);
 //config view engine
 configViewEngine(app);
 //config body-parser like a middleware before run in web routes below

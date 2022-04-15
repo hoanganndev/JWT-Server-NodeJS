@@ -4,24 +4,53 @@ import {
     checkPhoneExist,
     hasUserPassword,
 } from "./checkService";
+const getAllUser = async () => {
+    try {
+        let users = await db.User.findAll({
+            attributes: ["id", "username", "email", "phone", "sex"],
+            include: { model: db.Group, attributes: ["name", "description"] },
+        });
+        if (users) {
+            return {
+                errorMessage: "Get all data users success !",
+                errorCode: 0,
+                data: users,
+            };
+        } else {
+            return {
+                errorMessage: "Get all data success !",
+                errorCode: 1,
+                data: [],
+            };
+        }
+    } catch (error) {
+        console.log("🔴>>> error from userApiService at getAllUser:", error);
+        return {
+            errorMessage: "Something wrong with service !",
+            errorCode: -1,
+            data: [],
+        };
+    }
+};
+
 const createNewUser = async data => {
     try {
         // check định dạng email
         // check email/phonenumber are exist
         let isEmailExist = await checkEmailExist(data.email);
-        if (isEmailExist === true) {
+        if (isEmailExist) {
             return {
-                EM: "The email is already exist !",
-                EC: 1,
-                DT: "email",
+                errorMessage: "The email is already exist !",
+                errorCode: 1,
+                data: "email",
             };
         }
         let isPhoneExist = await checkPhoneExist(data.phone);
-        if (isPhoneExist === true) {
+        if (isPhoneExist) {
             return {
-                EM: "The phonenumber is already exist !",
-                EC: 1,
-                DT: "phone",
+                errorMessage: "The phone number is already exist !",
+                errorCode: 1,
+                data: "phone",
             };
         }
         //🔥 hash user password
@@ -29,19 +58,92 @@ const createNewUser = async data => {
         //🔥 hast user password
         await db.User.create({ ...data, password: hashPassword });
         return {
-            EM: "Create user success !",
-            EC: 0,
-            DT: "",
+            errorMessage: "Create user success !",
+            errorCode: 0,
+            data: "",
         };
     } catch (error) {
-        console.log(">>> error from userApiService:", error);
+        console.log("🔴>>> error from userApiService at createNewUser:", error);
         return {
-            EM: "Something wrong with service !",
-            EC: -1,
-            DT: [],
+            errorMessage: "Something wrong with service !",
+            errorCode: -1,
+            data: [],
+        };
+    }
+};
+const updateUser = async data => {
+    try {
+        if (!data.groupId) {
+            return {
+                EM: "Error with empty GroupId",
+                EC: 1,
+                DT: "group",
+            };
+        }
+        let user = await db.User.findOne({
+            where: { id: data.id },
+        });
+        if (user) {
+            //🔥 Update
+            await user.update({
+                username: data.username,
+                address: data.address,
+                sex: data.sex,
+                groupId: data.groupId,
+            });
+            return {
+                EM: "Update user success !",
+                EC: 0,
+                DT: "",
+            };
+        } else {
+            //🔥 Not found user
+            return {
+                EM: "User not found !",
+                EC: 1,
+                DT: "",
+            };
+        }
+    } catch (error) {
+        console.log("🔴>>> error from userApiService at updateUser:", error);
+        return {
+            errorMessage: "Something wrong with service !",
+            errorCode: -1,
+            data: [],
+        };
+    }
+};
+const deleteUser = async id => {
+    try {
+        let user = await db.User.findOne({
+            where: { id: id },
+        });
+        if (user) {
+            await user.destroy();
+            return {
+                EM: "Delete user succeeds !",
+                EC: 0,
+                DT: "",
+            };
+        } else {
+            return {
+                EM: "User not exist !",
+                EC: 1,
+                DT: "",
+            };
+        }
+    } catch (error) {
+        console.log("🔴>>> error from userApiService at deleteUser:", error);
+        return {
+            errorMessage: "Something wrong with service !",
+            errorCode: -1,
+            data: [],
         };
     }
 };
 module.exports = {
     createNewUser,
+    getAllUser,
+    updateUser,
+    deleteUser,
 };

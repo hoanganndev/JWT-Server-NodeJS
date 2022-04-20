@@ -117,9 +117,7 @@ let getUser= await db.User.findOne({
 
 ---
 
-###[eager-loading](https://sequelize.org/docs/v6/advanced-association-concepts/eager-loading/)
-
-## [How to write readme file ?](https://ihoctot.com/cach-viet-readme-md)
+### [eager-loading](https://sequelize.org/docs/v6/advanced-association-concepts/eager-loading/)
 
 ---
 
@@ -207,25 +205,29 @@ SELECT * FROM User LIMIT 5 OFFSET 25;
 
 > Công thức tính `offset` = (`page hiện tại` - `1`) X `số phần tử mỗi page`
 
-EX : Ví đang ở `page 2` : `offset = ( 2 - 1 ) X 5 = 5`
+> EX : Ví dụ đang ở `page 2` : `offset = ( 2 - 1 ) X 5 = 5`
 
 > Công thức tính tổng cộng `có bao nhiêu page`
 
-Lấy tổng số items count được , chính là tổng số User trong table chia cho limit
+> Lấy tổng số items count được , chính là tổng số User trong table chia cho limit
 
-EX : Tổng User là 30 => `Total Pages = (30/5) = 6`
+> EX : Tổng User là 30 => `Total Pages = (30/5) = 6`
 
-Và JS có hàm Math.ceil() để làm tròn số để tính tổng số page nếu là số lẻ
-Ví dụ 3.14 làm tròn thành 4
+> Và JS có hàm Math.ceil() để làm tròn số để tính tổng số page nếu là số lẻ
+> Ví dụ 3.14 làm tròn thành 4
 
 `Math.ceil(30/5)`
 
 ### Sequelize có hỗ trợ method findAndCountAll để tính limit và offset
 
-> (model-querying-finders)[https://sequelize.org/docs/v6/core-concepts/model-querying-finders/]
+### (model-querying-finders)[https://sequelize.org/docs/v6/core-concepts/model-querying-finders/]
 
-### React-paginate npm for frontend
+## Config react-paginate npm for frontend
 
-> (react-paginate)[https://www.npmjs.com/package/react-paginate]
+### (react-paginate)[https://www.npmjs.com/package/react-paginate]
 
 > npm i --save-exact react-paginate@8.1.0
+
+---
+
+## [How to write readme file ?](https://ihoctot.com/cach-viet-readme-md)

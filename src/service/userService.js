@@ -24,7 +24,7 @@ const getAllUser = async () => {
             };
         }
     } catch (error) {
-        console.log("🔴>>> error from userApiService at getAllUser:", error);
+        console.log("🔴>>> error from userService at getAllUser:", error);
         return {
             errorMessage: "Something wrong with service !",
             errorCode: -1,
@@ -32,7 +32,43 @@ const getAllUser = async () => {
         };
     }
 };
+const getUserWithPagination = async (page, limit) => {
+    try {
+        let offset = (page - 1) * limit;
+        const { count, rows } = await db.User.findAndCountAll({
+            attributes: ["id", "username", "email", "phone", "sex", "address"],
+            include: {
+                model: db.Group,
+                attributes: ["name", "description", "id"],
+            },
+            order: [["id", "DESC"]],
+            offset: offset,
+            limit: limit,
+        });
 
+        let totalPages = Math.ceil(count / limit); // ceil làm tròn lên
+        let data = {
+            totalRows: count,
+            totalPages: totalPages,
+            users: rows,
+        };
+        return {
+            errorMessage: "Get data with pagination success !",
+            errorCode: 0,
+            data: data,
+        };
+    } catch (error) {
+        console.log(
+            "🔴>>> error from userService at getUserWithPagination:",
+            error
+        );
+        return {
+            errorMessage: "Something wrong with service !",
+            errorCode: -1,
+            data: [],
+        };
+    }
+};
 const createNewUser = async data => {
     try {
         // check định dạng email
@@ -63,7 +99,7 @@ const createNewUser = async data => {
             data: "",
         };
     } catch (error) {
-        console.log("🔴>>> error from userApiService at createNewUser:", error);
+        console.log("🔴>>> error from userService at createNewUser:", error);
         return {
             errorMessage: "Something wrong with service !",
             errorCode: -1,
@@ -105,7 +141,7 @@ const updateUser = async data => {
             };
         }
     } catch (error) {
-        console.log("🔴>>> error from userApiService at updateUser:", error);
+        console.log("🔴>>> error from userService at updateUser:", error);
         return {
             errorMessage: "Something wrong with service !",
             errorCode: -1,
@@ -133,7 +169,7 @@ const deleteUser = async id => {
             };
         }
     } catch (error) {
-        console.log("🔴>>> error from userApiService at deleteUser:", error);
+        console.log("🔴>>> error from userService at deleteUser:", error);
         return {
             errorMessage: "Something wrong with service !",
             errorCode: -1,
@@ -146,4 +182,5 @@ module.exports = {
     getAllUser,
     updateUser,
     deleteUser,
+    getUserWithPagination,
 };

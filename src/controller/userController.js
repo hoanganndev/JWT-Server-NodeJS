@@ -1,8 +1,8 @@
 import userService from "../service/userService";
-
+//🔥 Function read users and calculate pagination for client
 const readFunction = async (req, res) => {
     try {
-        // http://localhost:8080/api/v1/user/read?page=6&limit=5
+        //🔥 http://localhost:8080/api/v1/user/read?page=6&limit=5
         if (req.query.page && req.query.limit) {
             let page = req.query.page;
             let limit = req.query.limit;
@@ -32,8 +32,15 @@ const readFunction = async (req, res) => {
         });
     }
 };
+//🔥 Function create a user
 const createFunction = async (req, res) => {
     try {
+        let dataService = await userService.createNewUser(req.body);
+        return res.status(200).json({
+            errorMessage: dataService.errorMessage,
+            errorCode: dataService.errorCode,
+            data: dataService.data,
+        });
     } catch (error) {
         console.log(
             "🔴>>> Error from userController at createFunction :",
@@ -46,8 +53,15 @@ const createFunction = async (req, res) => {
         });
     }
 };
+//🔥 Function update information of user
 const updateFunction = async (req, res) => {
     try {
+        let dataService = await userService.updateUser(req.body);
+        return res.status(200).json({
+            errorMessage: dataService.errorMessage,
+            errorCode: dataService.errorCode,
+            data: dataService.data,
+        });
     } catch (error) {
         console.log(
             "🔴>>> Error from userController at updateFunction :",
@@ -60,8 +74,15 @@ const updateFunction = async (req, res) => {
         });
     }
 };
+//🔥 Function delete a user
 const deleteFunction = async (req, res) => {
     try {
+        let dataService = await userService.deleteUser(req.body.id);
+        return res.status(200).json({
+            errorMessage: dataService.errorMessage,
+            errorCode: dataService.errorCode,
+            data: dataService.data,
+        });
     } catch (error) {
         console.log(
             "🔴>>> Error from userController at deleteFunction :",

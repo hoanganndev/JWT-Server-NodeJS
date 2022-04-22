@@ -33,7 +33,7 @@ const registerNewUser = async rawUserData => {
             username: rawUserData.username,
             password: hashPassword,
             phone: rawUserData.phone,
-            groupId: 4, //🔥 Default belongs to guest group
+            groupId: 3, //🔥 Default belongs to customer group
         });
         return {
             errorMessage: "A user is created successfully!",

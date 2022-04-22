@@ -220,11 +220,11 @@ SELECT * FROM User LIMIT 5 OFFSET 25;
 
 ### Sequelize có hỗ trợ method findAndCountAll để tính limit và offset
 
-### (model-querying-finders)[https://sequelize.org/docs/v6/core-concepts/model-querying-finders/]
+### [model-querying-finders](https://sequelize.org/docs/v6/core-concepts/model-querying-finders/)
 
 ## Config react-paginate npm for frontend
 
-### (react-paginate)[https://www.npmjs.com/package/react-paginate]
+### [react-paginate](https://www.npmjs.com/package/react-paginate)
 
 > npm i --save-exact react-paginate@8.1.0
 

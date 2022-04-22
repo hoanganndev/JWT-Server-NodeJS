@@ -10,6 +10,11 @@ const hasUserPassword = userPassword => {
 const checkPassword = (inputPassword, hashPassword) => {
     return bcrypt.compareSync(inputPassword, hashPassword); //🔥 true or false
 };
+//🔥 Check validate email
+const checkValidateEmail = async userEmail => {
+    let regx = /\S+@\S+\.\S+/;
+    return await regx.test(userEmail);
+};
 //🔥 Check exist email
 const checkEmailExist = async userEmail => {
     let user = await db.User.findOne({
@@ -32,4 +37,5 @@ module.exports = {
     checkEmailExist,
     checkPhoneExist,
     checkPassword,
+    checkValidateEmail,
 };

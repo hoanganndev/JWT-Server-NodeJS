@@ -9,7 +9,7 @@ const initApiRoutes = app => {
     //TODO: ROUTER REGISTER AND LOGIN
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
-    // router.post("/logout", apiController.handleLogout);
+    router.get("/logout", apiController.handleLogout);
 
     //TODO: CRUD USER ROUTER
     router.get("/user/read", userController.readFunction);

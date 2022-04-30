@@ -16,7 +16,7 @@ const handleRegister = async (req, res) => {
                 data: "",
             });
         }
-        //🔥 Service: Create user
+        //! Service: Create user
         let dataService = await loginRegisterService.registerNewUser(req.body);
         return res.status(200).json({
             errorMessage: dataService.errorMessage,
@@ -24,6 +24,7 @@ const handleRegister = async (req, res) => {
             data: "",
         });
     } catch (error) {
+        console.log("🔴>>> Error from apiController at handleRegister:", error);
         return res.status(500).json({
             errorMessage: "Error from server",
             errorCode: -1,
@@ -34,13 +35,20 @@ const handleRegister = async (req, res) => {
 const handleLogin = async (req, res) => {
     try {
         let dataService = await loginRegisterService.handleUserLogin(req.body);
+        //! Set cookie
+        if (dataService && dataService.data.access_token) {
+            res.cookie("jwt", dataService.data.access_token, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 1000, //! Expire : 1h
+            }); //! httpOnly: true => only server can read cookies
+        }
         return res.status(200).json({
             errorMessage: dataService.errorMessage,
             errorCode: dataService.errorCode,
             data: dataService.data,
         });
     } catch (error) {
-        console.log(">>> Error from handleLogin controller:", error);
+        console.log("🔴>>> Error from apiController at handleLogin:", error);
         return res.status(500).json({
             errorMessage: "Error from server",
             errorCode: -1,
@@ -48,25 +56,25 @@ const handleLogin = async (req, res) => {
         });
     }
 };
-// const handleLogout = (req, res) => {
-//     try {
-//         res.clearCookie("jwt");
-//         return res.status(200).json({
-//             errorMessage: "clear cookie done !",
-//             errorCode: 0,
-//             errorCode: "",
-//         });
-//     } catch (error) {
-//         console.log(">>> error from controller:", error);
-//         return res.status(500).json({
-//             errorMessage: "error from server", //error message
-//             errorCode: -1, //error code
-//             errorCode: "", //data
-//         });
-//     }
-// };
+const handleLogout = (req, res) => {
+    try {
+        res.clearCookie("jwt");
+        return res.status(200).json({
+            errorMessage: "clear cookie done !",
+            errorCode: 0,
+            errorCode: "",
+        });
+    } catch (error) {
+        console.log("🔴>>> Error from apiController at handleLogout:", error);
+        return res.status(500).json({
+            errorMessage: "Error from server",
+            errorCode: -1,
+            errorCode: "",
+        });
+    }
+};
 module.exports = {
     handleRegister,
     handleLogin,
-    // handleLogout,
+    handleLogout,
 };

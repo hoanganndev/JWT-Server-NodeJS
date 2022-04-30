@@ -8,10 +8,7 @@ const readFunction = async (req, res) => {
             data: dataService.data,
         });
     } catch (error) {
-        console.log(
-            "🔴>>> Error from groupController at readFunction :",
-            error
-        );
+        console.log("🔴>>> Error from groupController at readFunction:", error);
         return res.status(500).json({
             errorMessage: "Error from server",
             errorCode: -1,

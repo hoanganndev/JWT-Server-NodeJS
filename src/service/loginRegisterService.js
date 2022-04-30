@@ -1,5 +1,6 @@
-import { Op } from "sequelize"; //🔥 operator in sequelize: toan tu
+import { Op } from "sequelize"; //! operator in sequelize: toan tu
 import db from "../models";
+import { createJWT } from "../middleware/JWT_Action";
 import {
     checkEmailExist,
     checkPassword,
@@ -7,10 +8,11 @@ import {
     hasUserPassword,
 } from "./checkService";
 require("dotenv").config();
-//🔥 Handle login and register new user
+import { getGroupWithRoles } from "./JWTService";
+//! Handle login and register new user
 const registerNewUser = async rawUserData => {
     try {
-        //🔥 Check email/phone number are exist
+        //! Check email/phone number are exist
         let isEmailExist = await checkEmailExist(rawUserData.email);
         if (isEmailExist) {
             return {
@@ -25,15 +27,15 @@ const registerNewUser = async rawUserData => {
                 errorCode: 1,
             };
         }
-        //🔥 Hash user password
+        //! Hash user password
         let hashPassword = hasUserPassword(rawUserData.password);
-        //🔥 Create new user
+        //! Create new user
         await db.User.create({
             email: rawUserData.email,
             username: rawUserData.username,
             password: hashPassword,
             phone: rawUserData.phone,
-            groupId: 3, //🔥 Default belongs to customer group
+            groupId: 4, //! Default belongs to guest group
         });
         return {
             errorMessage: "A user is created successfully!",
@@ -51,7 +53,7 @@ const handleUserLogin = async rawUserData => {
     try {
         let user = await db.User.findOne({
             where: {
-                //🔥 where email = valueLogin or phone = valueLogin
+                //! where email = valueLogin or phone = valueLogin
                 [Op.or]: [
                     { email: rawUserData.valueLogin },
                     { phone: rawUserData.valueLogin },
@@ -59,24 +61,30 @@ const handleUserLogin = async rawUserData => {
             },
         });
         if (user) {
-            console.log("🟡>>> Found user with email/phone");
             let isCorrectPassword = await checkPassword(
                 rawUserData.password,
                 user.password
             );
             if (isCorrectPassword) {
+                let groupWithRoles = await getGroupWithRoles(user);
+                let payload = {
+                    email: user.email,
+                    username: user.username,
+                    groupWithRoles,
+                };
+                let token = createJWT(payload);
                 return {
-                    errorMessage: "ok",
+                    errorMessage: "Login sucess !",
                     errorCode: 0,
+                    data: {
+                        access_token: token,
+                        groupWithRoles,
+                        email: user.email,
+                        username: user.username,
+                    },
                 };
             }
         }
-        console.log(
-            "🟡>>> Input value with email/phone:",
-            rawUserData.valueLogin,
-            "🟡>>> Password:",
-            rawUserData.password
-        );
         return {
             errorMessage: "Your account is incorrect",
             errorCode: 1,

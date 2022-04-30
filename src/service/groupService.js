@@ -1,4 +1,4 @@
-import db from "../models"; //🔥 This file at models/index
+import db from "../models"; //! This file at models/index
 const getGroups = async () => {
     try {
         let data = await db.Group.findAll({

@@ -52,24 +52,24 @@ const handleLogin = async (req, res) => {
         return res.status(500).json({
             errorMessage: "Error from server",
             errorCode: -1,
-            errorCode: "",
+            data: "",
         });
     }
 };
 const handleLogout = (req, res) => {
     try {
-        res.clearCookie("jwt");
+        res.clearCookie("jwt"); //! Clear cookie from server
         return res.status(200).json({
-            errorMessage: "clear cookie done !",
+            errorMessage: "Successful logout !",
             errorCode: 0,
-            errorCode: "",
+            data: "",
         });
     } catch (error) {
         console.log("🔴>>> Error from apiController at handleLogout:", error);
         return res.status(500).json({
-            errorMessage: "Error from server",
+            errorMessage: "Logout failed",
             errorCode: -1,
-            errorCode: "",
+            data: "",
         });
     }
 };

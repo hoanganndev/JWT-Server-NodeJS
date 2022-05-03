@@ -11,8 +11,7 @@ const createJWT = payload => {
         });
         return token;
     } catch (error) {
-        console.log(error);
-        console.log("🔴>>> Error when create new Token from server !");
+        console.log("🔴>>> Error when create new Token from server !:", error);
     }
 };
 //TODO: Verify Token from client
@@ -22,8 +21,7 @@ const verifyToken = token => {
     try {
         decoded = jwt.verify(token, key);
     } catch (error) {
-        console.log("🔴>>>", error);
-        console.log("🔴>>> Error when verify token from sever !");
+        console.log("🔴>>> Error when verify token from sever !:", error);
     }
     return decoded;
 };

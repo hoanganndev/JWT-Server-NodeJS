@@ -91,7 +91,7 @@ const handleUserLogin = async rawUserData => {
             data: "",
         };
     } catch (error) {
-        console.log("🔴>>> error from server: ", error);
+        console.log("🔴>>> Error from server: ", error);
         return {
             errorMessage: "Something wrongs in service !",
             errorCodeEC: -2,

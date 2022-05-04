@@ -22,8 +22,14 @@ const initApiRoutes = app => {
     router.post("/role/create", roleController.createFunction);
     router.put("/role/update", roleController.updateFunction);
     router.delete("/role/delete", roleController.deleteFunction);
-    //router.get("/role/by-group/:groupId", roleController.getRoleByGroup);
-    //router.post("/role/assign-to-group", roleController.assignRoleToGroup);
+    router.get(
+        "/role/by-group/:groupId",
+        roleController.getRoleByGroupFunction
+    );
+    router.post(
+        "/role/assign-to-group",
+        roleController.assignRoleToGroupFunction
+    );
     //TODO: GROUP
     router.get("/group/read", groupController.readFunction);
     return app.use("/api/v1/", router);

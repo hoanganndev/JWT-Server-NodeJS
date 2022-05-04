@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
             // Group => Role : n.n
             Group.belongsToMany(models.Role, {
                 through: "Group_Role",
-                // foreignKey: "groupId",
+                foreignKey: "groupId",
             });
         }
     }

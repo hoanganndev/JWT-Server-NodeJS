@@ -19,59 +19,32 @@ const createFunction = async (req, res) => {
         });
     }
 };
-// const readFunction = async (req, res) => {
-//     try {
-//         //! http://localhost:8080/api/v1/user/read?page=6&limit=5
-//         if (req.query.page && req.query.limit) {
-//             let page = req.query.page;
-//             let limit = req.query.limit;
-//             let dataService = await userService.getUserWithPagination(
-//                 +page,
-//                 +limit
-//             );
-//             return res.status(200).json({
-//                 errorMessage: dataService.errorMessage,
-//                 errorCode: dataService.errorCode,
-//                 data: dataService.data,
-//             });
-//         } else {
-//             let dataService = await userService.getAllUser();
-//             return res.status(200).json({
-//                 errorMessage: dataService.errorMessage,
-//                 errorCode: dataService.errorCode,
-//                 data: dataService.data,
-//             });
-//         }
-//     } catch (error) {
-//         console.log("🔴>>> Error from userController at readFunction:", error);
-//         return res.status(500).json({
-//             errorMessage: "Error from server",
-//             errorCode: -1,
-//             data: "",
-//         });
-//     }
-// };
 const readFunction = async (req, res) => {
     try {
         if (req.query.page && req.query.limit) {
-            let page = req.query.page;
-            let limit = req.query.limit;
-            let dataService = await roleService.getRolesWithPagination(
-                +page,
-                +limit
-            );
-            return res.status(200).json({
-                errorMessage: dataService.errorMessage,
-                errorCode: dataService.errorCode,
-                data: dataService.data,
-            });
-        } else {
-            let dataService = await roleService.getAllRoles();
-            return res.status(200).json({
-                errorMessage: dataService.errorMessage,
-                errorCode: dataService.errorCode,
-                data: dataService.data,
-            });
+            if (
+                req.query.page !== "undefined" &&
+                req.query.limit !== "undefined"
+            ) {
+                let page = req.query.page;
+                let limit = req.query.limit;
+                let dataService = await roleService.getRolesWithPagination(
+                    +page,
+                    +limit
+                );
+                return res.status(200).json({
+                    errorMessage: dataService.errorMessage,
+                    errorCode: dataService.errorCode,
+                    data: dataService.data,
+                });
+            } else {
+                let dataService = await roleService.getAllRoles();
+                return res.status(200).json({
+                    errorMessage: dataService.errorMessage,
+                    errorCode: dataService.errorCode,
+                    data: dataService.data,
+                });
+            }
         }
     } catch (error) {
         console.log("🔴>>> Error from roleController at readFunction :", error);
@@ -119,9 +92,52 @@ const deleteFunction = async (req, res) => {
         });
     }
 };
+const getRoleByGroupFunction = async (req, res) => {
+    try {
+        let id = req.params.groupId;
+        let dataService = await roleService.getRolesByGroup(id);
+        return res.status(200).json({
+            errorMessage: dataService.errorMessage,
+            errorCode: dataService.errorCode,
+            data: dataService.data,
+        });
+    } catch (error) {
+        console.log(
+            "🔴>>> Error from roleController at getRoleByGroupFunction :",
+            error
+        );
+        return res.status(500).json({
+            errorMessage: "Error from server",
+            errorCode: -1,
+            data: "",
+        });
+    }
+};
+const assignRoleToGroupFunction = async (req, res) => {
+    try {
+        let dataService = await roleService.assignRoleToGroup(req.body.data);
+        return res.status(200).json({
+            errorMessage: dataService.errorMessage,
+            errorCode: dataService.errorCode,
+            data: dataService.data,
+        });
+    } catch (error) {
+        console.log(
+            "🔴>>> Error from roleController at assignRoleToGroupFunction :",
+            error
+        );
+        return res.status(500).json({
+            errorMessage: "Error from server",
+            errorCode: -1,
+            data: "",
+        });
+    }
+};
 module.exports = {
     createFunction,
     readFunction,
     deleteFunction,
     updateFunction,
+    getRoleByGroupFunction,
+    assignRoleToGroupFunction,
 };

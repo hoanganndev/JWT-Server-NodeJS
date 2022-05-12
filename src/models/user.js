@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // User => Group : 1.1
             // A.belongsTo(B) => foreign key being defind in the target model A
-            User.belongsTo(models.Group);
+            User.belongsTo(models.Group, { foreignKey: "groupId" });
             // nhan vien => Project : n.n
             User.belongsToMany(models.Project, { through: "Project_User" });
         }

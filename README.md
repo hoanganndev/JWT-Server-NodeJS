@@ -230,4 +230,8 @@ SELECT * FROM User LIMIT 5 OFFSET 25;
 
 ---
 
+## Config backend to deploy heroku
+
+> npm i --save-exact pg@8.7.1 pg-hstore@2.3.4
+
 ## [How to write readme file ?](https://ihoctot.com/cach-viet-readme-md)
